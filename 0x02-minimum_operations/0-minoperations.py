@@ -1,26 +1,33 @@
 #!/usr/bin/python3
 """
-This module contains a function to calculate the minimum number of operations
-needed to generate exactly `n` characters 'H' using only Copy All and Paste.
+This module provides a function to determine the minimum number of operations
+needed to produce exactly `n` characters 'H' in a text file using only
+'Copy All' and 'Paste' operations.
 """
 
 
-def minOperations(n) -> int:
+def minOperations(n: int) -> int:
     """
     Calculate the fewest number of operations needed to result
     in exactly n H characters in the file.
-    Returns the minimum number of operations, or 0 if impossible.
     """
     if n < 2:
         return 0
 
     operations: int = 0
-    factor: int = 2
+    body: int = 1
+    clipboard: int = 0
 
-    while n > 1:
-        while n % factor == 0:
-            operations += factor
-            n //= factor
-        factor += 1
+    while body < n:
+        if n % body == 0:
+            clipboard = body
+            body *= 2
+            operations += 2  # Copy All + Paste
+        else:
+            body += clipboard
+            operations += 1  # Just Paste
+
+    if body != n:
+        return 0
 
     return operations
