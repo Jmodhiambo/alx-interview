@@ -14,9 +14,9 @@ def minOperations(n: int) -> int:
     if n < 2:
         return 0
 
-    operations: int = 0
-    body: int = 1
-    clipboard: int = 0
+    operations = 0
+    body = 1
+    clipboard = 0
 
     while body < n:
         if n % body == 0:
