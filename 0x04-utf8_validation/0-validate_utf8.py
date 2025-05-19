@@ -1,28 +1,25 @@
 #!/usr/bin/python3
-"""
-UTF-8 Validation
-"""
+"""UTF-8 Validation"""
 
 
-def validUTF8(data) -> bool:
-    """Check if data represents a valid UTF-8 encoding"""
+def validUTF8(data):
+    """Check if data is a valid UTF-8 encoding"""
     n_bytes = 0
 
     for num in data:
-        if num > 255:
-            return False
+        byte = num & 0xFF  # Use only the least significant 8 bits
 
         if n_bytes == 0:
-            if (num >> 5) == 0b110:
+            if (byte >> 5) == 0b110:
                 n_bytes = 1
-            elif (num >> 4) == 0b1110:
+            elif (byte >> 4) == 0b1110:
                 n_bytes = 2
-            elif (num >> 3) == 0b11110:
+            elif (byte >> 3) == 0b11110:
                 n_bytes = 3
-            elif (num >> 7):
+            elif (byte >> 7) != 0:  # Invalid single-byte (must be 0xxxxxxx)
                 return False
         else:
-            if (num >> 6) != 0b10:
+            if (byte >> 6) != 0b10:  # Must start with 10 as continuation byte
                 return False
             n_bytes -= 1
 
