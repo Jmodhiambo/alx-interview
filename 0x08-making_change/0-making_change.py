@@ -1,13 +1,16 @@
 #!/usr/bin/python3
-from typing import List, Union
+"""Making Change
+This module provides a function to determine the fewest number of coins
+needed to meet a given amount total using dynamic programming.
+"""
 
 
-def makeChange(coins: List[int], total: int) -> int:
+def makeChange(coins, total):
     """Returns the fewest number of coins needed to meet total using DP."""
     if total <= 0:
         return 0
 
-    dp: List[Union[int, float]] = [float('inf')] * (total + 1)
+    dp = [float('inf')] * (total + 1)
     dp[0] = 0
 
     for amount in range(1, total + 1):
