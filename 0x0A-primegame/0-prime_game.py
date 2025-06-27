@@ -1,23 +1,17 @@
 #!/usr/bin/python3
 
-from typing import List, Any
 
-
-def isWinner(x: int, nums: List[int]) -> Any:
+def isWinner(x, nums):
     """
     Determines the winner of the prime game played by Maria and Ben.
-
-    Returns:
-        str | None: The name of the player with the most wins
-             ('Maria' or 'Ben'), or None if the game is a tie.
     """
     if x < 1 or not nums:
         return None
 
-    n: int = max(nums)
+    n = max(nums)
 
-    # Sieve of Eratosthenes to find prime numbers up to n
-    primes: List[bool] = [True] * (n + 1)
+    # Sieve of Eratosthenes to find all primes up to max(n)
+    primes = [True for _ in range(n + 1)]
     primes[0] = primes[1] = False
 
     for i in range(2, int(n ** 0.5) + 1):
@@ -25,17 +19,17 @@ def isWinner(x: int, nums: List[int]) -> Any:
             for j in range(i * i, n + 1, i):
                 primes[j] = False
 
-    # Precompute the number of primes up to each i
-    prime_count: list[int] = [0] * (n + 1)
-    count: int = 0
-    for i in range(n + 1):
+    # Count number of primes up to each index
+    prime_count = [0] * (n + 1)
+    count = 0
+    for i in range(len(primes)):
         if primes[i]:
             count += 1
         prime_count[i] = count
 
-    # Track the number of wins
-    maria_wins: int = 0
-    ben_wins: int = 0
+    # Count wins
+    maria_wins = 0
+    ben_wins = 0
 
     for num in nums:
         if prime_count[num] % 2 == 1:
